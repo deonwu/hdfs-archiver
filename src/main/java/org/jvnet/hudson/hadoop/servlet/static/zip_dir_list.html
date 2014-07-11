@@ -1,0 +1,25 @@
+<div xmlns:c="http://www.xidea.org/ns/lite/core">
+	<div style="margin-top:10px;">
+	</div>
+	<table class='result'>
+		<tr>
+			<th>File Name</th>
+			<th style="width:100px;">Size</th>
+			<th style="width:200px;">Upload Date</th>
+		</tr>
+		<c:for var="item" items="${fileList}">
+			<tr>
+				<td><a href="${prefix}${zipFile}!/${item.name}">${item.name}</a></td>
+				<td>
+				<c:if test="${item.isDirectory}">0</c:if>
+				<c:else>${item.size}</c:else>
+				</td>
+				<td>-</td>
+			</tr>
+		</c:for>
+		<c:else>
+			<tr><td colspan="3">Not found file '${path}'</td>			
+			</tr>
+		</c:else>
+	</table>
+</div>

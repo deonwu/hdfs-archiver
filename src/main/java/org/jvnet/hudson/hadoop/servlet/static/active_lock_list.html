@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="" >
+<head>
+<title>Distribute locks</title>
+<style media="all" type="text/css">
+body {
+  background: #fff; 
+  font-size: small;
+  font-family: sans-serif;
+  padding:0;
+}
+table.locks {
+  background: white;
+  border: 1px solid #444444;
+  border-collapse: collapse;
+  empty-cells: show;
+  font-size: 0.9em;
+  margin: 1em 0em;
+  width: 100%;
+}
+table.locks th, table.locks td {
+  border: 1px solid #444444;
+  padding: 0.2em 0.3em;
+}
+table.locks th {
+  background: #eeeeee;
+  font-weight: normal;
+  color: black;
+}
+</style>
+</head>
+<body xmlns:c="http://www.xidea.org/ns/lite/core">
+	<h1>Distributed lock service</h1>
+	<div>Version:${version.version} built at ${version.buildDate}</div>
+
+	<h1>Status report</h1>
+	<div>Start time:${status.start}, Last Active:${status.lastActive}, Now:${now}</div>
+	<div>Lock successful:${status.reqiredLockCount}, Lock failed:${status.failedLockCount}, Lock timeout:${status.timeoutLockCount}</div>
+
+	<c:if test="${lock}">
+		<h1>Current Lock</h1>
+		<div>Name:${lock.name}, Owner:${lock.owner}, IP:${lock.remoteIp}, TimeOut:${lock.timeout} ms, isLocked:${lock.isLocked}</div>
+	</c:if>
+	
+	<h1>Active Lock</h1>
+	<table class="locks">
+		<tr>
+			<th>Name</th>
+			<th>Owner</th>
+			<th>IP</th>
+			<th>TimeOut</th>
+			<th>Last Update</th>
+		</tr>
+		<c:for var="e" items="${locks}">
+			<tr>
+				<td>${e.name}</td>
+				<td>${e.owner}</td>
+				<td>${e.remoteIp}</td>
+				<td>${e.timeout} ms</td>
+				<td>${e.lastActive}</td>
+			</tr>
+		</c:for>
+	</table>
+	
+	
+	<h1>History Lock</h1>
+	<table class="locks">
+		<tr>
+			<th>Name</th>
+			<th>Required By</th>
+			<th>Hold by</th>
+			<th>Status</th>
+			<th>TimeOut</th>
+			<th>IP</th>
+			<th>Time</th>
+		</tr>
+		<c:for var="e" items="${status.recentLock}">
+			<tr>
+				<td>${e.name}</td>
+				<td>${e.owner}</td>
+				<td>${e.curOwner}</td>
+				<td>${e.isLocked}</td>
+				<td>${e.timeout} ms</td>
+				<td>${e.remoteIp}</td>
+				<td>${e.lastActive}</td>
+			</tr>
+		</c:for>
+	</table>	
+</body>
+</html>

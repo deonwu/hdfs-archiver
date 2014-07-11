@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="" >
+<head>
+<title>Distribute locks</title>
+<style media="all" type="text/css">
+body {
+  background: #fff; 
+  font-size: small;
+  font-family: sans-serif;
+  padding:0;
+}
+table.locks {
+  background: white;
+  border: 1px solid #444444;
+  border-collapse: collapse;
+  empty-cells: show;
+  font-size: 0.9em;
+  margin: 1em 0em;
+  width: 100%;
+}
+table.locks th, table.locks td {
+  border: 1px solid #444444;
+  padding: 0.2em 0.3em;
+}
+table.locks th {
+  background: #eeeeee;
+  font-weight: normal;
+  color: black;
+}
+</style>
+</head>
+<body xmlns:c="http://www.xidea.org/ns/lite/core">
+	<h1>Message queue service</h1>
+	<div>Version:${version.version} built at ${version.buildDate}</div>
+	<div>'${topic.name}' Status:</div>	
+	<div>Queue size:${topic.maxQueueSize}, data size:${topic.queueSize}, 
+	buffer size:${topic.bufferSize}, Next message id:${topic.curMessageId}
+	</div>
+		
+	<h1>Message list</h1>
+	<table class="locks">
+		<c:if test='${title != null}'>
+			<tr>
+			<th>ID</th>
+			<c:for var="e" items="${title}">
+				<th>${e}</th>
+			</c:for>
+			<th>Msg status</th>
+			<th>Create Time</th>
+			</tr>
+		</c:if>
+		<c:for var="data" items="${message_list}">
+			<tr>
+				<td>${data.id}</td>
+				<c:for var="t" items="${title}">
+					<td>${data.data[t]}</td>
+				</c:for>
+				<td>${data.status}</td>
+				<td>${data.createTime}</td>
+			</tr>
+		</c:for>
+	</table>
+</body>
+</html>
